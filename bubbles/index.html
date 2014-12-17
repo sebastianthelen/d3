@@ -8,7 +8,7 @@ text {
 
 
 <body>
-<script src="../lib/d3.min.js"></script>
+<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 <script>
 
 var diameter = 960,
@@ -38,7 +38,8 @@ function processData(data) {
    return {children: newDataSet};
 }
 
-d3.json("amendments.json", function(error, data) {
+//d3.json("amendments.json", function(error, data) {
+d3.json("http://abel:8890/sparql/?query=PREFIX+cdm%3A+%3Chttp%3A%2F%2Fpublications.europa.eu%2Fontology%2Fcdm%23%3E+%0D%0Aselect+count%28%3Fs%29+as+%3Fnumber+%3Fyear+where+%0D%0A%7B%0D%0A%3Fs+cdm%3Aresource_legal_amends_resource_legal+%3Fo%3B%0D%0A+++%5Eowl%3AsameAs+%3Fcellar.%0D%0A%3Fcellar+owl%3AsameAs+%3Fid.%0D%0A%3Fid+cdm%3Awork_date_document+%3Fdate.%0D%0Abind%28substr%28str%28%3Fdate%29%2C+1%2C+4%29+AS+%3Fyear+%29%0D%0A%7D+group+by+%3Fyear%0D%0A%0D%0A&format=application%2Fsparql-results%2Bjson", function(error, data) {
   root = processData(data);
   var node = svg.selectAll(".node")
       .data(bubble.nodes(classes(root))
